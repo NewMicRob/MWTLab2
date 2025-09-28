@@ -28,7 +28,7 @@ app.get('/timeout', (req, res) => {
 function getPromiseTimeout() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            const success= {id: 1, name: 'Michael R Newman'};
+            const success = {id: 1, name: 'Michael R Newman'};
             if (success) {
                 resolve(success);
             } else {
@@ -68,6 +68,27 @@ app.get('/file', async (req, res) => {
         res.status(500).send('Error: ' + err);
     }
 })
+
+// Simulate delay helper function
+function simulateDelay(ms) {
+    return new Promise((resolve) => 
+        setTimeout(resolve, ms))
+};
+
+app.get('/chain', async (req, res) => {
+    try {
+        await simulateDelay(1000);
+        console.log('Login successful');
+        await simulateDelay(1000);
+        console.log('Fetching data');
+        await simulateDelay(1000);
+        console.log('Rendering data');
+        res.send("Loading complete");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    }
+});
 
 // Server start 
 const onServerStart = () => {
