@@ -6,7 +6,6 @@ Prof: Sivagama Srinivasan
 Course: Modern Web Technologies - CPAN - 212 - RNA
 */
 
-
 // Server setup
 const express = require('express');
 const app = express();
@@ -18,9 +17,9 @@ app.get('/', (req, res) => {
 })
 
 // Timeout
-app.get('/timeout', (req, res) => {
+app.get('/callback', (req, res) => {
     setTimeout(() => {
-        res.json({id: 1, name: 'Michael R Newman'});
+        res.send("{id: 1, name: 'Michael R Newman'}");
     }, 1000);
 })
 
@@ -42,7 +41,7 @@ function getPromiseTimeout() {
 app.get('/promise', (req, res) => {
     getPromiseTimeout()
     .then((data) => {
-        res.json(data);
+        res.send(data);
     })
     .catch((error) => {
         res.status(500).send(error);
@@ -53,7 +52,7 @@ app.get('/promise', (req, res) => {
 app.get('/async', async (req, res) => {
     try {
         const data = await getPromiseTimeout();
-        res.json(data);
+        res.send(data);
     } catch (error) {
         res.status(500).send(error);
     }
@@ -75,6 +74,7 @@ function simulateDelay(ms) {
         setTimeout(resolve, ms))
 };
 
+// Chaining
 app.get('/chain', async (req, res) => {
     try {
         await simulateDelay(1000);
@@ -83,6 +83,8 @@ app.get('/chain', async (req, res) => {
         console.log('Fetching data');
         await simulateDelay(1000);
         console.log('Rendering data');
+        await simulateDelay(1000);
+        console.log('Loading complete')
         res.send("Loading complete");
     } catch (err) {
         console.error(err);
