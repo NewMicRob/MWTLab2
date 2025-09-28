@@ -16,12 +16,14 @@ app.get('/', (req, res) => {
     res.send("<h1>Michael R Newman</h1><br><h2>LAB 2</h2>");
 })
 
+// Timeout
 app.get('/timeout', (req, res) => {
     setTimeout(() => {
         res.json({id: 1, name: 'Michael R Newman'});
     }, 1000);
 })
 
+// Timeout function for promises
 function getPromiseTimeout() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -35,6 +37,7 @@ function getPromiseTimeout() {
     })
 };
 
+// Promise
 app.get('/promise', (req, res) => {
     getPromiseTimeout()
     .then((data) => {
@@ -45,10 +48,21 @@ app.get('/promise', (req, res) => {
     });
 });
 
+// Async/Await
+app.get('/async', async (req, res) => {
+    try {
+        const data = await getPromiseTimeout();
+        res.json(data);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
 
+// Server start 
 const onServerStart = () => {
     console.log(`Server is running on http://localhost:${port}`);
     console.log('Press CTRL + C to Stop the server');
 }
 
+// Listens to port and displays start messages
 app.listen(port, onServerStart);
