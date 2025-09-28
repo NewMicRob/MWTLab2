@@ -11,6 +11,7 @@ Course: Modern Web Technologies - CPAN - 212 - RNA
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
+const fs = require('fs').promises;
 
 app.get('/', (req, res) => {
     res.send("<h1>Michael R Newman</h1><br><h2>LAB 2</h2>");
@@ -57,6 +58,16 @@ app.get('/async', async (req, res) => {
         res.status(500).send(error);
     }
 });
+
+// Async File read
+app.get('/file', async (req, res) => {
+    try {
+        const data = await fs.readFile('index.txt', 'utf-8');
+        res.send(data);
+    } catch (err) {
+        res.status(500).send('Error: ' + err);
+    }
+})
 
 // Server start 
 const onServerStart = () => {
