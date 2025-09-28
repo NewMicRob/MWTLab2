@@ -22,6 +22,30 @@ app.get('/timeout', (req, res) => {
     }, 1000);
 })
 
+function getPromiseTimeout() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const success= {id: 1, name: 'Michael R Newman'};
+            if (success) {
+                resolve(success);
+            } else {
+                reject('Promise Error');
+            }
+        }, 1000);
+    })
+};
+
+app.get('/promise', (req, res) => {
+    getPromiseTimeout()
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {
+        res.status(500).send(error);
+    });
+});
+
+
 const onServerStart = () => {
     console.log(`Server is running on http://localhost:${port}`);
     console.log('Press CTRL + C to Stop the server');
