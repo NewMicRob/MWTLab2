@@ -76,6 +76,7 @@ function simulateDelay(ms) {
 
 // Chaining
 app.get('/chain', async (req, res) => {
+    const steps = {"steps":["Login Successful","Fetching Data","Rendering Data","Loading Complete"]};
     try {
         await simulateDelay(1000);
         console.log('Login successful');
@@ -85,7 +86,7 @@ app.get('/chain', async (req, res) => {
         console.log('Rendering data');
         await simulateDelay(1000);
         console.log('Loading complete')
-        res.send("Loading complete");
+        res.send(steps);
     } catch (err) {
         console.error(err);
         res.status(500).send('Error: ' + err);
