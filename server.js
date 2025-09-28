@@ -16,6 +16,12 @@ app.get('/', (req, res) => {
     res.send("<h1>Michael R Newman</h1><br><h2>LAB 2</h2>");
 })
 
+app.get('/timeout', (req, res) => {
+    setTimeout(() => {
+        res.json({id: 1, name: 'Michael R Newman'});
+    }, 1000);
+})
+
 const onServerStart = () => {
     console.log(`Server is running on http://localhost:${port}`);
     console.log('Press CTRL + C to Stop the server');
